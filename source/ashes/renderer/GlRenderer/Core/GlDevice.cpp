@@ -630,4 +630,9 @@ namespace ashes::gl
 	{
 		return hasViewportArrays( get( device )->getPhysicalDevice() );
 	}
+
+	bool hasProgramInterfaceQuery( VkDevice device )
+	{
+		return hasProgramInterfaceQuery( get( device )->getPhysicalDevice() );
+	}
 }

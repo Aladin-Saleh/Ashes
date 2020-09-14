@@ -1641,7 +1641,7 @@ namespace ashes::gl
 
 		for ( auto & bindInfo : makeArrayView( pBindInfos, bindInfoCount ) )
 		{
-			if ( result = VK_SUCCESS )
+			if ( result == VK_SUCCESS )
 			{
 				result = get( bindInfo.memory )->bindToBuffer( bindInfo.buffer, bindInfo.memoryOffset );
 			}
@@ -1659,7 +1659,7 @@ namespace ashes::gl
 
 		for ( auto & bindInfo : makeArrayView( pBindInfos, bindInfoCount ) )
 		{
-			if ( result = VK_SUCCESS )
+			if ( result == VK_SUCCESS )
 			{
 				result = get( bindInfo.memory )->bindToImage( bindInfo.image, bindInfo.memoryOffset );
 			}
@@ -2839,7 +2839,7 @@ namespace ashes::gl
 
 		for ( auto & bindInfo : makeArrayView( pBindInfos, bindInfoCount ) )
 		{
-			if ( result = VK_SUCCESS )
+			if ( result == VK_SUCCESS )
 			{
 				result = get( bindInfo.memory )->bindToBuffer( bindInfo.buffer, bindInfo.memoryOffset );
 			}
@@ -2857,7 +2857,7 @@ namespace ashes::gl
 
 		for ( auto & bindInfo : makeArrayView( pBindInfos, bindInfoCount ) )
 		{
-			if ( result = VK_SUCCESS )
+			if ( result == VK_SUCCESS )
 			{
 				result = get( bindInfo.memory )->bindToImage( bindInfo.image, bindInfo.memoryOffset );
 			}
@@ -3868,7 +3868,7 @@ namespace ashes::gl
 #pragma endregion
 #pragma region VK_MVK_ios_surface
 #ifdef VK_MVK_ios_surface
-#	ifdef VK_USE_PLATFORM_IOS_MVK
+#	ifdef __APPLE__
 
 	VkResult VKAPI_CALL vkCreateIOSSurfaceMVK(
 		VkInstance instance,
@@ -3888,7 +3888,7 @@ namespace ashes::gl
 #pragma endregion
 #pragma region VK_MVK_macos_surface
 #ifdef VK_MVK_macos_surface
-#	ifdef VK_USE_PLATFORM_MACOS_MVK
+#	ifdef __APPLE__
 
 	VkResult VKAPI_CALL vkCreateMacOSSurfaceMVK(
 		VkInstance instance,
@@ -4078,6 +4078,8 @@ namespace ashes::gl
 #	elif __linux__
 			VkExtensionProperties{ VK_KHR_XLIB_SURFACE_EXTENSION_NAME, VK_KHR_XLIB_SURFACE_SPEC_VERSION },
 			VkExtensionProperties{ VK_KHR_XCB_SURFACE_EXTENSION_NAME, VK_KHR_XCB_SURFACE_SPEC_VERSION },
+#	elif __APPLE__
+			VkExtensionProperties{ VK_MVK_MACOS_SURFACE_EXTENSION_NAME, VK_MVK_MACOS_SURFACE_SPEC_VERSION },
 #	endif
 #if VK_EXT_debug_report
 			VkExtensionProperties{ VK_EXT_DEBUG_REPORT_EXTENSION_NAME, VK_EXT_DEBUG_REPORT_SPEC_VERSION },

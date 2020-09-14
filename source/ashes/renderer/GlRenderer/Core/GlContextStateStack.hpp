@@ -63,7 +63,8 @@ namespace ashes::gl
 
 		inline ArrayView< VkRect2D const > getCurrentScissors()const
 		{
-			return makeArrayView( m_scissors.data(), m_scissors.size() );
+			return makeArrayView( m_scissors.data()
+				, m_scissors.data() + m_scissors.size() );
 		}
 
 		inline void setCurrentScissors( ArrayView< VkRect2D const > const & value )
@@ -76,7 +77,8 @@ namespace ashes::gl
 
 		inline ArrayView< VkViewport const > getCurrentViewports()const
 		{
-			return makeArrayView( m_viewports.data(), m_viewports.size() );
+			return makeArrayView( m_viewports.data()
+				, m_viewports.data() + m_viewports.size() );
 		}
 
 		inline void setCurrentViewports( ArrayView< VkViewport const > const & value )

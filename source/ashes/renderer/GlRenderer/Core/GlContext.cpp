@@ -129,6 +129,27 @@ namespace ashes::gl
 		return nullptr;
 	}
 
+#elif __APPLE__
+
+	ContextPtr Context::create( VkInstance instance
+		, VkSurfaceKHR surface )
+	{
+		if ( get( surface )->isMacOS() )
+		{
+			return create( instance
+				, get( surface )->getMacOSCreateInfo()
+				, &get( instance )->getCurrentContext() );
+		}
+		else if ( get( surface )->isDisplay() )
+		{
+			return create( instance
+				, get( surface )->getDisplayCreateInfo()
+				, &get( instance )->getCurrentContext() );
+		}
+
+		return nullptr;
+	}
+
 #endif
 
 	ContextState & Context::getState()
@@ -218,7 +239,7 @@ namespace ashes::gl
 			throw std::runtime_error{ std::string{ "Couldn't load function " } + "gl"#fun };\
 		}
 
-#	define GL_LIB_FUNCTION_EXT( fun, ... )\
+#define GL_LIB_FUNCTION_EXT( fun, ... )\
 		if ( !( getFunction( "gl"#fun, m_gl##fun, __VA_ARGS__ ) ) )\
 		{\
 			std::cerr << "Couldn't load function " << "gl"#fun << std::endl;\

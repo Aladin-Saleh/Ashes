@@ -20,6 +20,13 @@ if ( OpenGL_FOUND )
 			${Ashes_BINARY_LIBRARIES}
 			OpenGL::GL
 		)
+	elseif ( APPLE )
+		set( Ashes_BINARY_LIBRARIES
+			${Ashes_BINARY_LIBRARIES}
+			"-framework OpenGL"
+			"-framework AppKit"
+			OpenGL::GL
+		)
 	else ()
 		find_package( X11 )
 		if ( ASHES_USE_XLIB_EGL )
@@ -38,7 +45,6 @@ if ( OpenGL_FOUND )
 			OpenGL::EGL
 			OpenGL::GLX
 			OpenGL::OpenGL
-
 		)
 	endif ()
 
@@ -395,6 +401,8 @@ if ( OpenGL_FOUND )
 		Miscellaneous/GlQueryPool.cpp
 		Miscellaneous/GlScreenHelpers.cpp
 		Miscellaneous/GlValidator.cpp
+		Miscellaneous/GlValidatorInterfaceQuery.cpp
+		Miscellaneous/GlValidatorOldStyle.cpp
 	)
 	set( ${PROJECT_NAME}_FOLDER_HDR_FILES
 		Miscellaneous/GlCallLogger.hpp
@@ -405,6 +413,8 @@ if ( OpenGL_FOUND )
 		Miscellaneous/GlQueryPool.hpp
 		Miscellaneous/GlScreenHelpers.hpp
 		Miscellaneous/GlValidator.hpp
+		Miscellaneous/GlValidatorInterfaceQuery.hpp
+		Miscellaneous/GlValidatorOldStyle.hpp
 		Miscellaneous/OpenGLDefines.hpp
 		Miscellaneous/OpenGLFunctionsList.inl
 	)
@@ -441,6 +451,8 @@ if ( OpenGL_FOUND )
 	source_group( "Source Files\\Pipeline" FILES ${${PROJECT_NAME}_FOLDER_SRC_FILES} )
 
 	set( ${PROJECT_NAME}_FOLDER_SRC_FILES
+		Platform/CGlContext.cpp
+		Platform/CGlWindow.cpp
 		Platform/EglContext.cpp
 		Platform/GlEglContext.cpp
 		Platform/GlMswContext.cpp
@@ -453,6 +465,8 @@ if ( OpenGL_FOUND )
 		Platform/GlXcbWindow.cpp
 	)
 	set( ${PROJECT_NAME}_FOLDER_HDR_FILES
+		Platform/CGlContext.hpp
+		Platform/CGlWindow.hpp
 		Platform/EglContext.hpp
 		Platform/GlEglContext.hpp
 		Platform/GlMswContext.hpp
@@ -464,6 +478,17 @@ if ( OpenGL_FOUND )
 		Platform/GlXcbContext.hpp
 		Platform/GlXcbWindow.hpp
 	)
+	if ( APPLE )
+	set( ${PROJECT_NAME}_FOLDER_SRC_FILES
+		${${PROJECT_NAME}_FOLDER_SRC_FILES}
+		Platform/CGlContext.mm
+		Platform/CGlView.mm
+	)
+	set( ${PROJECT_NAME}_FOLDER_HDR_FILES
+		${${PROJECT_NAME}_FOLDER_HDR_FILES}
+		Platform/CGlView.hh
+	)
+	endif ()
 	set( ${PROJECT_NAME}_SRC_FILES
 		${${PROJECT_NAME}_SRC_FILES}
 		${${PROJECT_NAME}_FOLDER_SRC_FILES}
@@ -569,6 +594,7 @@ if ( OpenGL_FOUND )
 		${_PROJECT_NAME}_EXPORTS
 		${TARGET_CXX_DEFINITIONS}
 		_CRT_SECURE_NO_WARNINGS
+		GL_SILENCE_DEPRECATION
 	)
 	target_compile_options( ${PROJECT_NAME} PRIVATE
 		${TARGET_CXX_OPTIONS}
