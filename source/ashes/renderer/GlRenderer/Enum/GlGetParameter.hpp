@@ -13,4 +13,5 @@ namespace ashes::gl
 		GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT = 0x8A34,
 	};
 	std::string getName( GlGetParameter value );
+	inline std::string toString( GlGetParameter value ) { return getName( value ); }
 }
